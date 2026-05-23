@@ -65,6 +65,7 @@ const PRODUCTS = {
       desc: 'Polpa pura da Amazônia com granola, banana e leite condensado.',
       price: 16.90,
       img: 'Assents/AcaiGarrafa.png',
+      toppings: false,
     },
     {
       id: 'a2',
@@ -72,6 +73,7 @@ const PRODUCTS = {
       desc: 'Porção generosa com morango, granola, mel e coco ralado.',
       price: 22.90,
       img: 'Assents/AcaiGarrafa.png',
+      toppings: false,
     },
     {
       id: 'a3',
@@ -79,6 +81,7 @@ const PRODUCTS = {
       desc: 'Super porção com banana, morango, granola crocante, amendoim e Nutella.',
       price: 31.90,
       img: 'Assents/AcaiGarrafa.png',
+      toppings: false,
     },
     {
       id: 'a4',
@@ -86,34 +89,39 @@ const PRODUCTS = {
       desc: 'Bowl de açaí com frutas vermelhas, chia, mel, castanhas e granola especial.',
       price: 26.90,
       img: 'Assents/AcaiGarrafa.png',
+      toppings: false,
     },
     {
-      id: 'a1',
+      id: 'a5',
       name: 'Açaí Garrafa - 300ml ',
       desc: 'Polpa pura da Amazônia com granola, banana e leite condensado.',
       price: 16.90,
       img: 'Assents/AcaiGarrafa.png',
+      toppings: false,
     },
     {
-      id: 'a1',
+      id: 'a6',
       name: 'Açaí Garrafa - 300ml ',
       desc: 'Polpa pura da Amazônia com granola, banana e leite condensado.',
       price: 16.90,
       img: 'Assents/AcaiGarrafa.png',
+      toppings: false,
     },
     {
-      id: 'a1',
+      id: 'a7',
       name: 'Açaí Garrafa - 300ml ',
       desc: 'Polpa pura da Amazônia com granola, banana e leite condensado.',
       price: 16.90,
       img: 'Assents/AcaiGarrafa.png',
+      toppings: false,
     },
     {
-      id: 'a1',
-      name: 'Açaí Garrafa - 300ml ',
+      id: 'a8',
+      name: 'Tijela - 700ml ',
       desc: 'Polpa pura da Amazônia com granola, banana e leite condensado.',
       price: 16.90,
       img: 'Assents/AcaiGarrafa.png',
+      toppings: true,
     },
   ],
   bebidas: [
@@ -155,6 +163,86 @@ const PRODUCTS = {
   ],
 };
 
+
+// ===== COMPLEMENTOS DO AÇAÍ =====
+const ACAI_TOPPINGS = [
+  { id: 't1', name: 'Granola', emoji: '🌾' },
+  { id: 't2', name: 'Banana', emoji: '🍌' },
+  { id: 't3', name: 'Morango', emoji: '🍓' },
+  { id: 't4', name: 'Leite condensado', emoji: '🥛' },
+  { id: 't5', name: 'Mel', emoji: '🍯' },
+  { id: 't6', name: 'Coco ralado', emoji: '🥥' },
+  { id: 't7', name: 'Nutella', emoji: '🍫' },
+  { id: 't8', name: 'Amendoim', emoji: '🥜' },
+  { id: 't9', name: 'Paçoca', emoji: '🟤' },
+  { id: 't10', name: 'Castanha', emoji: '🌰' },
+];
+
+let acaiPendingProduct = null;
+
+function openAcaiModal(productId) {
+  acaiPendingProduct = productId;
+  // Limpa seleções anteriores
+  document.querySelectorAll('.topping-chip').forEach(el => el.classList.remove('selected'));
+  document.getElementById('acaiModal').classList.add('open');
+  document.getElementById('acaiOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeAcaiModal() {
+  document.getElementById('acaiModal').classList.remove('open');
+  document.getElementById('acaiOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+  acaiPendingProduct = null;
+}
+
+function confirmAcaiOrder() {
+  if (!acaiPendingProduct) return;
+
+  const selected = [...document.querySelectorAll('.topping-chip.selected')]
+    .map(el => el.dataset.name);
+
+  const product = getProductById(acaiPendingProduct);
+  if (!product) return;
+
+  const existing = cart.find(item => item.id === acaiPendingProduct && JSON.stringify(item.toppings) === JSON.stringify(selected));
+  if (existing) {
+    existing.qty += 1;
+  } else {
+    cart.push({
+      id: acaiPendingProduct,
+      name: product.name,
+      price: product.price,
+      img: product.img,
+      qty: 1,
+      toppings: selected,
+    });
+  }
+
+  saveCart();
+  renderCart();
+  updateCartBadge();
+
+  const toppingText = selected.length > 0 ? ` (${selected.join(', ')})` : '';
+  showToast(`✅ ${product.name}${toppingText} adicionado!`);
+  closeAcaiModal();
+}
+function handleAddProduct(productId, category) {
+  if (category !== 'acai') {
+    addToCart(productId, category);
+    return;
+  }
+
+  const product = getProductById(productId);
+  if (!product) return;
+
+  if (product.toppings) {
+    openAcaiModal(productId);   // abre o modal
+  } else {
+    addToCart(productId, category);  // vai direto pro carrinho
+  }
+}
+
 // ===== ESTADO DO CARRINHO =====
 let cart = loadCart();
 
@@ -181,7 +269,7 @@ function renderProducts(category, gridId) {
         <p class="card-desc">${p.desc}</p>
         <div class="card-footer">
           <span class="card-price">${formatPrice(p.price)}</span>
-          <button class="add-btn" onclick="addToCart('${p.id}','${category}')">
+          <button class="add-btn" onclick="handleAddProduct('${p.id}', '${category}')">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
@@ -194,6 +282,24 @@ function renderProducts(category, gridId) {
     grid.appendChild(card);
   });
 }
+// Inicializa os chips de topping
+(function buildToppings() {
+  const grid = document.getElementById('toppingsGrid');
+  if (!grid) return;
+  ACAI_TOPPINGS.forEach(t => {
+    const chip = document.createElement('button');
+    chip.className = 'topping-chip';
+    chip.dataset.id = t.id;
+    chip.dataset.name = t.name;
+    chip.innerHTML = `
+      <span class="chip-emoji">${t.emoji}</span>
+      <span>${t.name}</span>
+      <span class="chip-check">✓</span>
+    `;
+    chip.addEventListener('click', () => chip.classList.toggle('selected'));
+    grid.appendChild(chip);
+  });
+})();
 
 // Inicializa os 3 grids
 renderProducts('hamburgueres', 'grid-hamburgueres');
@@ -273,6 +379,10 @@ function renderCart() {
       <img class="cart-item-img" src="${item.img}" alt="${item.name}" />
       <div class="cart-item-info">
         <p class="cart-item-name">${item.name}</p>
+        ${item.toppings && item.toppings.length > 0
+  ? `<p class="cart-item-toppings">${item.toppings.join(' · ')}</p>`
+  : ''}
+       
         <p class="cart-item-price">${formatPrice(item.price * item.qty)}</p>
         <div class="cart-item-controls">
           <button class="qty-btn" onclick="changeQty('${item.id}', -1)">−</button>
