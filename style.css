@@ -968,6 +968,10 @@ input, select, textarea { font-family: inherit; }
   font-weight: 600;
   margin-left: auto;
 }
+
+#adicionaisGrid{
+  display: none;
+}
 /* ===== RESPONSIVE ===== */
 @media (max-width: 900px) {
  
