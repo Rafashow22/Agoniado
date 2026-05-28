@@ -199,15 +199,27 @@ const ACAI_COBERTURAS = [
 // ===== COMPLEMENTOS DO AÇAÍ =====
 const ACAI_TOPPINGS = [
   { id: 't1', name: 'Granola', emoji: '🌾' },
-  { id: 't2', name: 'Banana', emoji: '🍌' },
-  { id: 't3', name: 'Morango', emoji: '🍓' },
-  { id: 't4', name: 'Leite condensado', emoji: '🥛' },
+    { id: 't4', name: 'Leite condensado', emoji: '🥛' },
   { id: 't5', name: 'Leite em Pó', emoji: '🥛' },
   { id: 't6', name: 'Coco ralado', emoji: '🥥' },
-  { id: 't7', name: 'Nutella', emoji: '🍫' },
   { id: 't8', name: 'Amendoim', emoji: '🥜' },
   { id: 't9', name: 'Paçoca', emoji: '🟤' },
   { id: 't10', name: 'Castanha ', emoji: '🌰' },
+];
+
+const FRUTAS = [
+  { id: 'd1', name: 'Banana',       emoji: '🍌' },
+  { id: 'd2', name: 'Morango',         emoji: '🍓' },
+  { id: 'd3', name: 'Manga',emoji: '🥭' },
+  { id: 'd4', name: 'Kiwi',             emoji: '🥝' },
+  
+];
+
+const ACAI_ADICIONAIS = [
+  { id: 'ad1', name: 'Nutella',        emoji: '🍫', price: 3.00 },
+    { id: 'ad3', name: 'Bis',            emoji: '🍬', price: 2.00 },
+  { id: 'ad4', name: 'Ovomaltine',     emoji: '🟤', price: 2.50 },
+  { id: 'ad5', name: 'Sonho de Valsa',     emoji: '🟤', price: 2.50 },
 ];
 
 let acaiPendingProduct = null;
@@ -232,17 +244,32 @@ function closeAcaiModal() {
 function confirmAcaiOrder() {
   if (!acaiPendingProduct) return;
 
+  const selectedFrutas = [...document.querySelectorAll('#frutasGrid .topping-chip.selected')]
+    .map(el => el.dataset.name);
+
   const selectedToppings = [...document.querySelectorAll('#toppingsGrid .topping-chip.selected')]
     .map(el => el.dataset.name);
 
   const selectedCoberturas = [...document.querySelectorAll('#coberturasGrid .topping-chip.selected')]
     .map(el => el.dataset.name);
 
+  const selectedAdicionais = [...document.querySelectorAll('#adicionaisGrid .topping-chip.selected')]
+    .map(el => ({ name: el.dataset.name, price: parseFloat(el.dataset.price) }));
+
   const product = getProductById(acaiPendingProduct);
   if (!product) return;
 
-  // Combina tudo numa chave única para evitar duplicatas
-  const allExtras = [...selectedToppings, ...selectedCoberturas.map(c => `🍯 ${c}`)];
+  // Preço final = produto + soma dos adicionais
+  const extraPrice = selectedAdicionais.reduce((sum, a) => sum + a.price, 0);
+  const finalPrice = product.price + extraPrice;
+
+  const allExtras = [
+    ...selectedFrutas.map(f => `🍒 ${f}`),
+    ...selectedToppings,
+    ...selectedCoberturas.map(c => `🍯 ${c}`),
+    ...selectedAdicionais.map(a => `➕ ${a.name} (+R$ ${a.price.toFixed(2).replace('.', ',')})`),
+  ];
+
   const existing = cart.find(
     item => item.id === acaiPendingProduct &&
             JSON.stringify(item.toppings) === JSON.stringify(allExtras)
@@ -254,10 +281,10 @@ function confirmAcaiOrder() {
     cart.push({
       id:       acaiPendingProduct,
       name:     product.name,
-      price:    product.price,
+      price:    finalPrice,       // ← preço já com adicionais
       img:      product.img,
       qty:      1,
-      toppings: allExtras,   // complementos + coberturas juntos
+      toppings: allExtras,
     });
   }
 
@@ -269,21 +296,7 @@ function confirmAcaiOrder() {
   showToast(`✅ ${product.name}${extrasText} adicionado!`);
   closeAcaiModal();
 }
-function handleAddProduct(productId, category) {
-  if (category !== 'acai') {
-    addToCart(productId, category);
-    return;
-  }
 
-  const product = getProductById(productId);
-  if (!product) return;
-
-  if (product.toppings) {
-    openAcaiModal(productId);   // abre o modal
-  } else {
-    addToCart(productId, category);  // vai direto pro carrinho
-  }
-}
 
 // ===== ESTADO DO CARRINHO =====
 let cart = loadCart();
@@ -326,6 +339,25 @@ function renderProducts(category, gridId) {
 }
 // Inicializa os chips de topping
 (function buildToppings() {
+
+  // — Frutas —
+  const fGrid = document.getElementById('frutasGrid');
+  if (fGrid) {
+    FRUTAS.forEach(f => {
+      const chip = document.createElement('button');
+      chip.className = 'topping-chip';
+      chip.dataset.id   = f.id;
+      chip.dataset.name = f.name;
+      chip.innerHTML = `
+        <span class="chip-emoji">${f.emoji}</span>
+        <span>${f.name}</span>
+        <span class="chip-check">✓</span>
+      `;
+      chip.addEventListener('click', () => chip.classList.toggle('selected'));
+      fGrid.appendChild(chip);
+    });
+  }
+
   // — Complementos —
   const tGrid = document.getElementById('toppingsGrid');
   if (tGrid) {
@@ -361,6 +393,28 @@ function renderProducts(category, gridId) {
       cGrid.appendChild(chip);
     });
   }
+
+// — Adicionais (pagos) —
+  const aGrid = document.getElementById('adicionaisGrid');
+  if (aGrid) {
+    ACAI_ADICIONAIS.forEach(a => {
+      const chip = document.createElement('button');
+      chip.className = 'topping-chip';
+      chip.dataset.id    = a.id;
+      chip.dataset.name  = a.name;
+      chip.dataset.price = a.price;   // ← guarda o preço no chip
+      chip.innerHTML = `
+        <span class="chip-emoji">${a.emoji}</span>
+        <span>${a.name}</span>
+        <span class="chip-price">+R$ ${a.price.toFixed(2).replace('.', ',')}</span>
+        <span class="chip-check">✓</span>
+      `;
+      chip.addEventListener('click', () => chip.classList.toggle('selected'));
+      aGrid.appendChild(chip);
+    });
+  }
+
+
 })();
 
 // Inicializa os 3 grids
@@ -411,6 +465,21 @@ function removeFromCart(productId) {
   saveCart();
   renderCart();
   updateCartBadge();
+}
+
+function handleAddProduct(productId, category) {
+  if (category !== 'acai') {
+    addToCart(productId, category);
+    return;
+  }
+  const product = getProductById(productId);
+  if (!product) return;
+
+  if (product.toppings) {
+    openAcaiModal(productId);
+  } else {
+    addToCart(productId, category);
+  }
 }
 
 // ============================================================
