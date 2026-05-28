@@ -226,24 +226,29 @@
 
 
 <!-- ===== AÇAÍ TOPPINGS MODAL ===== -->
+<!-- ===== AÇAÍ TOPPINGS MODAL ===== -->
 <div class="modal-overlay" id="acaiOverlay" onclick="closeAcaiModal()"></div>
 <div class="modal" id="acaiModal">
   <div class="modal-header">
-    <h2>🫐 Escolha os complementos</h2>
+    <h2>🫐 Monte seu Açaí</h2>
     <button class="close-modal" onclick="closeAcaiModal()">✕</button>
   </div>
   <div class="modal-body">
     <p style="color:var(--text-secondary);font-size:0.88rem;margin-bottom:16px">
       Selecione quantos quiser — sem custo adicional
     </p>
+
+    <h4 class="modal-section-title">Complementos</h4>
     <div class="toppings-grid" id="toppingsGrid"></div>
+
+    <h4 class="modal-section-title" style="margin-top:1.4rem">Coberturas</h4>
+    <div class="toppings-grid" id="coberturasGrid"></div>
   </div>
   <div class="modal-footer">
     <button class="btn btn-ghost" onclick="closeAcaiModal()">Cancelar</button>
     <button class="btn btn-primary" onclick="confirmAcaiOrder()">Adicionar ao carrinho</button>
   </div>
 </div>
-
   <!-- ===== TOAST ===== -->
   <div class="toast" id="toast"></div>
 

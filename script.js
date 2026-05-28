@@ -61,66 +61,90 @@ const PRODUCTS = {
   acai: [
     {
       id: 'a1',
-      name: 'Açaí Garrafa - 300ml ',
-      desc: 'Polpa pura da Amazônia com granola, banana e leite condensado.',
+      name: 'Ninho com Oreo',
+      desc: 'A cremosidade do ninho com pedaços de Oreo irressistível.',
       price: 16.90,
-      img: 'Assents/AcaiGarrafa.png',
+      img: 'Assents/Acai-Oreo.png',
       toppings: false,
     },
     {
       id: 'a2',
-      name: 'Açaí Garrafa Morango - 300ml',
-      desc: 'Porção generosa com morango, granola, mel e coco ralado.',
+      name: 'Ninho com Morango',
+      desc: 'A combinação perfeita do ninho com morangos selecionados',
       price: 22.90,
-      img: 'Assents/AcaiGarrafa.png',
+      img: 'Assents/Acai-Morango.png',
       toppings: false,
     },
     {
       id: 'a3',
-      name: 'Açaí Premium 300ml',
-      desc: 'Super porção com banana, morango, granola crocante, amendoim e Nutella.',
+      name: 'Ninho com Chocolate',
+      desc: 'Ninho cremoso com chocolate para quem ama um sabor marcante',
       price: 31.90,
-      img: 'Assents/AcaiGarrafa.png',
+      img: 'Assents/Acai-Chocolate.png',
       toppings: false,
     },
     {
       id: 'a4',
-      name: 'Tigela Premium',
-      desc: 'Bowl de açaí com frutas vermelhas, chia, mel, castanhas e granola especial.',
+      name: 'Ninho com leite condensado',
+      desc: 'Doce na medida certa com ninho e leite condensado',
       price: 26.90,
-      img: 'Assents/AcaiGarrafa.png',
+      img: 'Assents/LeiteCondesado.png',
       toppings: false,
     },
     {
       id: 'a5',
-      name: 'Açaí Garrafa - 300ml ',
-      desc: 'Polpa pura da Amazônia com granola, banana e leite condensado.',
+      name: 'Paçoca com chocolate',
+      desc: ' Paaçoca crocante com chocolate para deixar tudo ainda melhor',
       price: 16.90,
-      img: 'Assents/AcaiGarrafa.png',
+      img: 'Assents/PacocaChocolate.png',
       toppings: false,
     },
     {
       id: 'a6',
-      name: 'Açaí Garrafa - 300ml ',
-      desc: 'Polpa pura da Amazônia com granola, banana e leite condensado.',
+      name: 'Paçoca com morango',
+      desc: 'Paçoca com morango selecionados, combinação que surpreende',
       price: 16.90,
-      img: 'Assents/AcaiGarrafa.png',
+      img: 'Assents/PacocaMorango.png',
       toppings: false,
     },
     {
       id: 'a7',
-      name: 'Açaí Garrafa - 300ml ',
-      desc: 'Polpa pura da Amazônia com granola, banana e leite condensado.',
+      name: 'Paçoca com leite condesado',
+      desc: 'Paçoca com leite condesado, cremoso e irresistível',
       price: 16.90,
-      img: 'Assents/AcaiGarrafa.png',
+      img: 'Assents/LeiteCondesado.png',
       toppings: false,
     },
     {
       id: 'a8',
-      name: 'Tijela - 700ml ',
-      desc: 'Polpa pura da Amazônia com granola, banana e leite condensado.',
-      price: 16.90,
-      img: 'Assents/AcaiGarrafa.png',
+      name: 'Marmita - 300ml ',
+      desc: 'Açai premium com direito a complementos e frutas.',
+      price: 15.00,
+      img: 'Assents/Marmita.png',
+      toppings: true,
+    },
+     {
+      id: 'a9',
+      name: 'Marmita - 500ml ',
+      desc: 'Açai premium com direito a complementos e frutas.',
+      price: 21.00,
+      img: 'Assents/Marmita.png',
+      toppings: true,
+    },
+     {
+      id: 'a10',
+      name: 'Marmita com Brownie - 300ml',
+      desc: 'Açai premium com direito a complementos e frutas.',
+      price: 17.00,
+      img: 'Assents/Brownie.png',
+      toppings: true,
+    },
+    {
+      id: 'a11',
+      name: 'Marmita com Brownie - 500ml',
+      desc: 'Açai premium com direito a complementos e frutas.',
+      price: 23.00,
+      img: 'Assents/Brownie.png',
       toppings: true,
     },
   ],
@@ -163,6 +187,14 @@ const PRODUCTS = {
   ],
 };
 
+const ACAI_COBERTURAS = [
+  { id: 'c1', name: 'Chocolate',       emoji: '🍫' },
+  { id: 'c2', name: 'Morango',         emoji: '🍓' },
+  { id: 'c3', name: 'Leite condensado',emoji: '🥛' },
+  { id: 'c4', name: 'Creme de Ninho',             emoji: '🥛' },
+  { id: 'c5', name: 'Creme de Oreo',        emoji: '🍪' },
+  
+];
 
 // ===== COMPLEMENTOS DO AÇAÍ =====
 const ACAI_TOPPINGS = [
@@ -170,12 +202,12 @@ const ACAI_TOPPINGS = [
   { id: 't2', name: 'Banana', emoji: '🍌' },
   { id: 't3', name: 'Morango', emoji: '🍓' },
   { id: 't4', name: 'Leite condensado', emoji: '🥛' },
-  { id: 't5', name: 'Mel', emoji: '🍯' },
+  { id: 't5', name: 'Leite em Pó', emoji: '🥛' },
   { id: 't6', name: 'Coco ralado', emoji: '🥥' },
   { id: 't7', name: 'Nutella', emoji: '🍫' },
   { id: 't8', name: 'Amendoim', emoji: '🥜' },
   { id: 't9', name: 'Paçoca', emoji: '🟤' },
-  { id: 't10', name: 'Castanha', emoji: '🌰' },
+  { id: 't10', name: 'Castanha ', emoji: '🌰' },
 ];
 
 let acaiPendingProduct = null;
@@ -190,6 +222,7 @@ function openAcaiModal(productId) {
 }
 
 function closeAcaiModal() {
+  document.querySelectorAll('.topping-chip').forEach(el => el.classList.remove('selected'));
   document.getElementById('acaiModal').classList.remove('open');
   document.getElementById('acaiOverlay').classList.remove('open');
   document.body.style.overflow = '';
@@ -199,23 +232,32 @@ function closeAcaiModal() {
 function confirmAcaiOrder() {
   if (!acaiPendingProduct) return;
 
-  const selected = [...document.querySelectorAll('.topping-chip.selected')]
+  const selectedToppings = [...document.querySelectorAll('#toppingsGrid .topping-chip.selected')]
+    .map(el => el.dataset.name);
+
+  const selectedCoberturas = [...document.querySelectorAll('#coberturasGrid .topping-chip.selected')]
     .map(el => el.dataset.name);
 
   const product = getProductById(acaiPendingProduct);
   if (!product) return;
 
-  const existing = cart.find(item => item.id === acaiPendingProduct && JSON.stringify(item.toppings) === JSON.stringify(selected));
+  // Combina tudo numa chave única para evitar duplicatas
+  const allExtras = [...selectedToppings, ...selectedCoberturas.map(c => `🍯 ${c}`)];
+  const existing = cart.find(
+    item => item.id === acaiPendingProduct &&
+            JSON.stringify(item.toppings) === JSON.stringify(allExtras)
+  );
+
   if (existing) {
     existing.qty += 1;
   } else {
     cart.push({
-      id: acaiPendingProduct,
-      name: product.name,
-      price: product.price,
-      img: product.img,
-      qty: 1,
-      toppings: selected,
+      id:       acaiPendingProduct,
+      name:     product.name,
+      price:    product.price,
+      img:      product.img,
+      qty:      1,
+      toppings: allExtras,   // complementos + coberturas juntos
     });
   }
 
@@ -223,8 +265,8 @@ function confirmAcaiOrder() {
   renderCart();
   updateCartBadge();
 
-  const toppingText = selected.length > 0 ? ` (${selected.join(', ')})` : '';
-  showToast(`✅ ${product.name}${toppingText} adicionado!`);
+  const extrasText = allExtras.length > 0 ? ` (${allExtras.join(', ')})` : '';
+  showToast(`✅ ${product.name}${extrasText} adicionado!`);
   closeAcaiModal();
 }
 function handleAddProduct(productId, category) {
@@ -284,21 +326,41 @@ function renderProducts(category, gridId) {
 }
 // Inicializa os chips de topping
 (function buildToppings() {
-  const grid = document.getElementById('toppingsGrid');
-  if (!grid) return;
-  ACAI_TOPPINGS.forEach(t => {
-    const chip = document.createElement('button');
-    chip.className = 'topping-chip';
-    chip.dataset.id = t.id;
-    chip.dataset.name = t.name;
-    chip.innerHTML = `
-      <span class="chip-emoji">${t.emoji}</span>
-      <span>${t.name}</span>
-      <span class="chip-check">✓</span>
-    `;
-    chip.addEventListener('click', () => chip.classList.toggle('selected'));
-    grid.appendChild(chip);
-  });
+  // — Complementos —
+  const tGrid = document.getElementById('toppingsGrid');
+  if (tGrid) {
+    ACAI_TOPPINGS.forEach(t => {
+      const chip = document.createElement('button');
+      chip.className = 'topping-chip';
+      chip.dataset.id   = t.id;
+      chip.dataset.name = t.name;
+      chip.innerHTML = `
+        <span class="chip-emoji">${t.emoji}</span>
+        <span>${t.name}</span>
+        <span class="chip-check">✓</span>
+      `;
+      chip.addEventListener('click', () => chip.classList.toggle('selected'));
+      tGrid.appendChild(chip);
+    });
+  }
+
+  // — Coberturas —
+  const cGrid = document.getElementById('coberturasGrid');
+  if (cGrid) {
+    ACAI_COBERTURAS.forEach(c => {
+      const chip = document.createElement('button');
+      chip.className = 'topping-chip';
+      chip.dataset.id   = c.id;
+      chip.dataset.name = c.name;
+      chip.innerHTML = `
+        <span class="chip-emoji">${c.emoji}</span>
+        <span>${c.name}</span>
+        <span class="chip-check">✓</span>
+      `;
+      chip.addEventListener('click', () => chip.classList.toggle('selected'));
+      cGrid.appendChild(chip);
+    });
+  }
 })();
 
 // Inicializa os 3 grids
