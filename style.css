@@ -962,7 +962,12 @@ input, select, textarea { font-family: inherit; }
   margin-bottom: 4px;
   line-height: 1.4;
 }
-
+.chip-price {
+  font-size: 0.72rem;
+  color: var(--primary);      /* ou a cor de destaque do seu tema */
+  font-weight: 600;
+  margin-left: auto;
+}
 /* ===== RESPONSIVE ===== */
 @media (max-width: 900px) {
   .hero {
