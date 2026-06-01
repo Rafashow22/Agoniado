@@ -120,7 +120,7 @@ const PRODUCTS = {
       name: '2x Garrafas de Açaí',
       desc: 'Promoção especial: 2 garrafas',
       price: 25.00,
-      img: '',
+      img: 'Assents/2x.png',
       toppings: false,
     },
     {
@@ -128,7 +128,7 @@ const PRODUCTS = {
       name: '2x Garrafas de Morango ao Leite',
       desc: 'Promoção especial: 2 garrafas',
       price: 20.00,
-      img: '',
+      img: 'Assents/2x.png',
       toppings: false,
     },
     {
@@ -136,7 +136,7 @@ const PRODUCTS = {
       name: '2x Garrafas de Paçoca Quente',
       desc: 'Promoção especial: 2 garrafas',
       price: 25.00,
-      img: '',
+      img: 'Assents/2x.png',
       toppings: false,
     },
        
@@ -632,6 +632,32 @@ function closeOrderForm() {
 }
 
 // ============================================================
+// SELEÇÃO DE FORMA DE PAGAMENTO
+// ============================================================
+function selectPayment(btn) {
+  document.querySelectorAll('.pay-opt').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const isPix = btn.dataset.value === 'Pix';
+  document.getElementById('pixDetailBox').style.display = isPix ? 'flex' : 'none';
+  document.getElementById('cardDetailBox').style.display = isPix ? 'none' : 'flex';
+}
+
+function copyPixModal() {
+  const key = CONFIG.pixKey;
+  navigator.clipboard.writeText(key).then(() => {
+    showToast('💠 Chave Pix copiada!');
+  }).catch(() => {
+    const el = document.createElement('textarea');
+    el.value = key;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    showToast('💠 Chave Pix copiada!');
+  });
+}
+
+// ============================================================
 // GERAR MENSAGEM E ABRIR WHATSAPP
 // ============================================================
 function sendWhatsApp() {
@@ -643,6 +669,8 @@ function sendWhatsApp() {
   const complement = document.getElementById('clientComplement').value.trim();
   const deliveryType = document.getElementById('deliveryType').value;
   const obs = document.getElementById('clientObs').value.trim();
+  const activePayBtn = document.querySelector('.pay-opt.active');
+  const paymentMethod = activePayBtn ? activePayBtn.dataset.value : 'Pix';
 
   const ALLOWED_NEIGHBORHOODS = [
 
@@ -700,11 +728,16 @@ function sendWhatsApp() {
     '',
     obs ? `📝 *Observações:* ${obs}` : '',
     '━━━━━━━━━━━━━━━━━━━━',
-    '💠 *Pagamento via Pix:*',
-    `   Chave: \`${CONFIG.pixKey}\``,
-    `   Recebedor: ${CONFIG.pixReceiver}`,
-    '',
-    '📸 *Após o pagamento, envie o comprovante aqui para confirmarmos seu pedido. Obrigado!* 🙏',
+    `💰 *Forma de Pagamento:* ${paymentMethod}`,
+    ...(paymentMethod === 'Pix' ? [
+      '💠 *Pagamento via Pix:*',
+      `   Chave: \`${CONFIG.pixKey}\``,
+      `   Recebedor: ${CONFIG.pixReceiver}`,
+      '',
+      '📸 *Após o pagamento, envie o comprovante aqui para confirmarmos seu pedido. Obrigado!* 🙏',
+    ] : [
+      '💳 *Pagamento com maquininha na entrega.*',
+    ]),
   ]
     .filter(line => line !== null)
     .join('\n');

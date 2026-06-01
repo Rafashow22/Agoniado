@@ -972,6 +972,12 @@ input, select, textarea { font-family: inherit; }
 #adicionaisGrid{
   display: none;
 }
+
+.pix-icon{
+  display: none;
+}
+
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 900px) {
  
@@ -1041,4 +1047,145 @@ input, select, textarea { font-family: inherit; }
   justify-content: space-around;
 }
   .products-grid { grid-template-columns: 1fr; }
+}
+/* ============================================================
+   PAYMENT — Formas de Pagamento (adicionado)
+   ============================================================ */
+
+/* Layout da seção de pagamento em 2 cards */
+.pix-section-title {
+  text-align: center;
+  margin-bottom: 32px;
+}
+.pix-section-title h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.4rem;
+  letter-spacing: 0.04em;
+  color: var(--text-primary);
+}
+.pix-section-title p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-top: 6px;
+}
+.pix-cards-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+@media (max-width: 680px) {
+  .pix-cards-row { grid-template-columns: 1fr; }
+}
+.pix-key-box{
+  align-items: center;
+}
+/* Card de cartão (reutiliza .pix-card, sobrescreve cor de borda) */
+.card-payment-card {
+  border-color: rgba(255, 107, 0, 0.35);
+  box-shadow: 0 8px 40px rgba(255,107,0,0.1);
+}
+
+/* Bandeiras */
+.card-flags-row {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0 4px;
+  flex-wrap: wrap;
+}
+.card-flag {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+}
+
+/* ===== PAYMENT TOGGLE — no ORDER MODAL ===== */
+.payment-toggle {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+.pay-opt {
+  flex: 1;
+  min-width: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border);
+  background: rgba(255,255,255,0.04);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.pay-opt:hover {
+  border-color: rgba(255,255,255,0.2);
+  color: var(--text-primary);
+}
+.pay-opt.active {
+  border-color: var(--accent);
+  background: rgba(255,107,0,0.12);
+  color: var(--accent);
+}
+.pay-icon { font-size: 1rem; }
+
+/* Detalhe Pix inline no modal */
+.pix-detail-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(124,58,237,0.08);
+  border: 1px solid rgba(124,58,237,0.2);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.pix-detail-label {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.pix-detail-key {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #a78bfa;
+  word-break: break-all;
+  flex: 1;
+}
+.btn-copy-inline {
+  background: rgba(124,58,237,0.25);
+  color: #a78bfa;
+  border: 1px solid rgba(124,58,237,0.4);
+  padding: 5px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.btn-copy-inline:hover { background: rgba(124,58,237,0.45); color: #fff; }
+
+/* Detalhe cartão inline */
+.card-detail-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,107,0,0.08);
+  border: 1px solid rgba(255,107,0,0.2);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin-top: 10px;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
 }

@@ -102,16 +102,38 @@
 
   <!-- ===== PIX SECTION ===== -->
   <section class="pix-section" id="pix">
-    <div class="pix-card">
-      <div class="pix-icon">💠</div>
-      <div class="pix-info">
-        <h3>Pagamento via Pix</h3>
-        <p>Rápido, seguro e sem taxas</p>
-        <div class="pix-key-box">
-          <span id="pixKey">44282df8-af5b-4be9-9df5-6b2894138bc8</span>
-          <button class="btn-copy" id="copyPixBtn" onclick="copyPix()">Copiar chave</button>
+    <div class="pix-section-title">
+      <h2>Formas de Pagamento</h2>
+      <p>Escolha a que for mais fácil pra você</p>
+    </div>
+    <div class="pix-cards-row">
+      <!-- PIX -->
+      <div class="pix-card">
+        <div class="pix-icon">💠</div>
+        <div class="pix-info">
+          <h3>Pagamento via Pix</h3>
+          <p>Rápido, seguro e sem taxas</p>
+          <div class="pix-key-box">
+            <span id="pixKey">44282df8-af5b-4be9-9df5-6b2894138bc8</span>
+            <button class="btn-copy" id="copyPixBtn" onclick="copyPix()">Copiar chave</button>
+          </div>
+          <p class="pix-receiver">Recebedor: <strong>Andre Souza</strong></p>
         </div>
-        <p class="pix-receiver">Recebedor: <strong>Andre Souza</strong></p>
+      </div>
+      <!-- CARTÃO -->
+      <div class="pix-card card-payment-card">
+        <div class="pix-icon">💳</div>
+        <div class="pix-info">
+          <h3>Cartão de Crédito ou Débito</h3>
+          <p>Pagamento na entrega ou retirada</p>
+          <div class="card-flags-row">
+            <span class="card-flag">VISA</span>
+            <span class="card-flag">MASTER</span>
+            <span class="card-flag">ELO</span>
+            <span class="card-flag">PIX</span>
+          </div>
+          <p class="pix-receiver" style="margin-top:10px">Maquininha disponível no momento da entrega</p>
+        </div>
       </div>
     </div>
   </section>
@@ -205,6 +227,30 @@
           <option value="Entrega em domicílio">🛵 Entrega em domicílio</option>
           <option value="Retirada no local">🏪 Retirada no local</option>
         </select>
+      </div>
+      <div class="form-group">
+        <label>Forma de pagamento *</label>
+        <div class="payment-toggle" id="paymentToggle">
+          <button type="button" class="pay-opt active" data-value="Pix" onclick="selectPayment(this)">
+            <span class="pay-icon">💠</span> Pix
+          </button>
+          <button type="button" class="pay-opt" data-value="Cartão de Crédito" onclick="selectPayment(this)">
+            <span class="pay-icon">💳</span> Crédito
+          </button>
+          <button type="button" class="pay-opt" data-value="Cartão de Débito" onclick="selectPayment(this)">
+            <span class="pay-icon">💳</span> Débito
+          </button>
+        </div>
+        <!-- Detalhe Pix (aparece quando Pix selecionado) -->
+        <div class="pix-detail-box" id="pixDetailBox">
+          <span class="pix-detail-label">Chave Pix:</span>
+          <span class="pix-detail-key" id="pixDetailKey">44282df8-af5b-4be9-9df5-6b2894138bc8</span>
+          <button type="button" class="btn-copy-inline" onclick="copyPixModal()">Copiar</button>
+        </div>
+        <!-- Info cartão -->
+        <div class="card-detail-box" id="cardDetailBox" style="display:none">
+          <span>💳 Maquininha na entrega — Visa, Master, Elo aceitos</span>
+        </div>
       </div>
       <div class="form-group">
         <label>Observações</label>
